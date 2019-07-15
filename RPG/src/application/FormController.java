@@ -59,24 +59,40 @@ public class FormController {
 				x++;
 				int i = x%teamA.length;
 				int j = (x/teamA.length)%2;
-
+//				FormControllerのインスタンス（mainLabel）にアクセスできる
 				mainLabel.setText("");
 				if(j==0) {
-					message = ((Character)teamA[i]).introduce();
-					mainLabel.setText(mainLabel.getText()+message);
+					if(teamA[i] instanceof Character) {
+						message = ((Character)teamA[i]).introduce();
+						mainLabel.setText(mainLabel.getText()+message);
 
-					message = (teamA[i]).move((Character)teamB[(int)(Math.random()*teamB.length)]);
-					mainLabel.setText(mainLabel.getText()+message);
+						message = (teamA[i]).move((Character)teamB[(int)(Math.random()*teamB.length)]);
+						mainLabel.setText(mainLabel.getText()+message);
 
-					teamAHp += ((Character)teamA[i]).getHp();
+						teamAHp += ((Character)teamA[i]).getHp();
+					}else {
+						message = teamA[i].introduce();
+						mainLabel.setText(mainLabel.getText()+message);
+
+						message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+						mainLabel.setText(mainLabel.getText()+message);
+					}
 				}else {
-					message = ((Character)teamB[i]).introduce();
-					mainLabel.setText(mainLabel.getText()+message);
+					if(teamA[i] instanceof Character) {
+						message = ((Character)teamB[i]).introduce();
+						mainLabel.setText(mainLabel.getText()+message);
 
-					message = (teamB[i]).move((Character)teamA[(int)(Math.random()*teamA.length)]);
-					mainLabel.setText(mainLabel.getText()+message);
+						message = (teamB[i]).move((Character)teamA[(int)(Math.random()*teamA.length)]);
+						mainLabel.setText(mainLabel.getText()+message);
 
-					teamBHp += ((Character)teamB[i]).getHp();
+						teamBHp += ((Character)teamB[i]).getHp();
+					}else {
+						message = (teamB[i]).introduce();
+						mainLabel.setText(mainLabel.getText()+message);
+
+						message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
+						mainLabel.setText(mainLabel.getText()+message);
+					}
 				}
 				teamAHp = 0;
 				teamBHp = 0;
