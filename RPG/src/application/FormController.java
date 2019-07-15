@@ -63,44 +63,84 @@ public class FormController {
 				mainLabel.setText("");
 				if(j==0) {
 					if(teamA[i] instanceof Character) {
-						message = ((Character)teamA[i]).introduce();
-						mainLabel.setText(mainLabel.getText()+message);
+						if(teamB[i] instanceof Character) {
+							message = ((Character)teamA[i]).introduce();
+							mainLabel.setText(mainLabel.getText()+message);
 
-						message = (teamA[i]).move((Character)teamB[(int)(Math.random()*teamB.length)]);
-						mainLabel.setText(mainLabel.getText()+message);
+							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
 
-						teamAHp += ((Character)teamA[i]).getHp();
+							teamAHp += ((Character)teamA[i]).getHp();
+						}else {
+							message = ((Character)teamA[i]).introduce();
+							mainLabel.setText(mainLabel.getText()+message);
+
+							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
+
+							teamAHp += ((Character)teamA[i]).getHp();
+						}
 					}else {
-						message = teamA[i].introduce();
-						mainLabel.setText(mainLabel.getText()+message);
+						if(teamB[i] instanceof Character) {
+							message = teamA[i].introduce();
+							mainLabel.setText(mainLabel.getText()+message);
 
-						message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
-						mainLabel.setText(mainLabel.getText()+message);
+							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
+						}else {
+							message = teamA[i].introduce();
+							mainLabel.setText(mainLabel.getText()+message);
+
+							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
+						}
 					}
 				}else {
-					if(teamA[i] instanceof Character) {
-						message = ((Character)teamB[i]).introduce();
-						mainLabel.setText(mainLabel.getText()+message);
+					if(teamB[i] instanceof Character) {
+						if(teamA[i] instanceof Character) {
+							message = ((Character)teamB[i]).introduce();
+							mainLabel.setText(mainLabel.getText()+message);
 
-						message = (teamB[i]).move((Character)teamA[(int)(Math.random()*teamA.length)]);
-						mainLabel.setText(mainLabel.getText()+message);
+							message = (teamB[i]).move((Character)teamA[(int)(Math.random()*teamA.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
 
-						teamBHp += ((Character)teamB[i]).getHp();
+							teamBHp += ((Character)teamB[i]).getHp();
+						}else {
+							message = ((Character)teamB[i]).introduce();
+							mainLabel.setText(mainLabel.getText()+message);
+
+							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
+
+							teamBHp += ((Character)teamB[i]).getHp();
+						}
 					}else {
-						message = (teamB[i]).introduce();
-						mainLabel.setText(mainLabel.getText()+message);
+						if(teamA[i] instanceof Character) {
+							message = teamB[i].introduce();
+							mainLabel.setText(mainLabel.getText()+message);
 
-						message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
-						mainLabel.setText(mainLabel.getText()+message);
+							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
+						}else {
+							message = teamB[i].introduce();
+							mainLabel.setText(mainLabel.getText()+message);
+
+							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
+							mainLabel.setText(mainLabel.getText()+message);
+						}
 					}
 				}
 				teamAHp = 0;
 				teamBHp = 0;
 				for(int k=0; k<teamA.length; k++) {
-					teamAHp += ((Character)teamA[k]).getHp();
+					if(teamA[k] instanceof Character) {
+						teamAHp += ((Character)teamA[k]).getHp();
+					}
 				}
 				for(int k=0; k<teamB.length; k++) {
-					teamBHp += ((Character)teamB[k]).getHp();
+					if(teamB[k] instanceof Character) {
+						teamBHp += ((Character)teamB[k]).getHp();
+					}
 				}
 				if(teamAHp<=0) {
 					topLabel.setText(mainLabel.getText()+"teamBの勝利！");
