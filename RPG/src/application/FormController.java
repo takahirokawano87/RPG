@@ -29,22 +29,19 @@ public class FormController {
 	int teamBHp;
 	boolean isEnded;
 
-	Movable[] teamA;
-	Movable[] teamB;
+	Movable[][] team;
 
 //	コンストラクタの中でインスタンスを生成する
 	public FormController() {
-		teamA = new Movable[4];
-		teamA[0] = new Robber("ドラえもん", 2800, 600, 400);
-		teamA[1] = new Sniper("のび太", 1600, 430, 800);
-		teamA[2] = new Robber("しずか", 600, 250, 200);
-		teamA[3] = new Currypanman();
-
-		teamB = new Movable[4];
-		teamB[0] = new Robber("ジャイアン", 4500, 1000, 620);
-		teamB[1] = new Sniper("スネ夫", 1200, 400, 300);
-		teamB[2] = new Sniper("出木杉", 2600, 580, 700);
-		teamB[3] = new Dokinchan();
+		team = new Movable[4][4];
+		team[0][0] = new Robber("ドラえもん", 2800, 600, 400);
+		team[0][1] = new Sniper("のび太", 1600, 430, 800);
+		team[0][2] = new Robber("しずか", 600, 250, 200);
+		team[0][3] = new Currypanman();
+		team[1][0] = new Robber("ジャイアン", 4500, 1000, 620);
+		team[1][1] = new Sniper("スネ夫", 1200, 400, 300);
+		team[1][2] = new Sniper("出木杉", 2600, 580, 700);
+		team[1][3] = new Dokinchan();
 
 		x = 0;
 		isEnded = false;
@@ -56,100 +53,91 @@ public class FormController {
 			public void handle(ActionEvent event) {
 				if(isEnded)return;
 				String message = "";
+//				攻撃する人を順番に選ぶ
 				x++;
-				int i = x%teamA.length;
-				int j = (x/teamA.length)%2;
+				int i = x%team[0].length;
+				int j = (x/team[0].length)%2;
 //				FormControllerのインスタンス（mainLabel）にアクセスできる
 				mainLabel.setText("");
-				if(j==0) {
-					if(teamA[i] instanceof Character) {
-						if(teamB[i] instanceof Character) {
-							message = ((Character)teamA[i]).introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-
-							teamAHp += ((Character)teamA[i]).getHp();
-						}else {
-							message = ((Character)teamA[i]).introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-
-							teamAHp += ((Character)teamA[i]).getHp();
-						}
-					}else {
-						if(teamB[i] instanceof Character) {
-							message = teamA[i].introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-						}else {
-							message = teamA[i].introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-						}
-					}
-				}else {
-					if(teamB[i] instanceof Character) {
-						if(teamA[i] instanceof Character) {
-							message = ((Character)teamB[i]).introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = (teamB[i]).move((Character)teamA[(int)(Math.random()*teamA.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-
-							teamBHp += ((Character)teamB[i]).getHp();
-						}else {
-							message = ((Character)teamB[i]).introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-
-							teamBHp += ((Character)teamB[i]).getHp();
-						}
-					}else {
-						if(teamA[i] instanceof Character) {
-							message = teamB[i].introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-						}else {
-							message = teamB[i].introduce();
-							mainLabel.setText(mainLabel.getText()+message);
-
-							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
-							mainLabel.setText(mainLabel.getText()+message);
-						}
-					}
+				if(team[i][j] instanceof Character) {
+					message = ((Character)team[i][j]).introduce();
+					mainLabel.setText(mainLabel.getText()+message);
 				}
-				teamAHp = 0;
-				teamBHp = 0;
-				for(int k=0; k<teamA.length; k++) {
-					if(teamA[k] instanceof Character) {
-						teamAHp += ((Character)teamA[k]).getHp();
-					}
-				}
-				for(int k=0; k<teamB.length; k++) {
-					if(teamB[k] instanceof Character) {
-						teamBHp += ((Character)teamB[k]).getHp();
-					}
-				}
-				if(teamAHp<=0) {
-					topLabel.setText(mainLabel.getText()+"teamBの勝利！");
-					isEnded = true;
-				}
-				if(teamBHp<=0) {
-					topLabel.setText(mainLabel.getText()+"teamAの勝利！");
-					isEnded = true;
-				}
+
+
+//				if(j==0) {
+//					if(teamA[i] instanceof Character) {
+//						if(teamB[i] instanceof Character) {
+//							message = ((Character)teamA[i]).introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//
+//							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+//							mainLabel.setText(mainLabel.getText()+message);
+//
+//							teamAHp += ((Character)teamA[i]).getHp();
+//						}else {
+//							message = ((Character)teamA[i]).introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//						}
+//					}else {
+//						if(teamB[i] instanceof Character) {
+//							message = teamA[i].introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//
+//							message = teamA[i].move((Character)teamB[(int)(Math.random()*teamB.length)]);
+//							mainLabel.setText(mainLabel.getText()+message);
+//						}else {
+//							message = teamA[i].introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//						}
+//					}
+//				}else {
+//					if(teamB[i] instanceof Character) {
+//						if(teamA[i] instanceof Character) {
+//							message = ((Character)teamB[i]).introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//
+//							message = (teamB[i]).move((Character)teamA[(int)(Math.random()*teamA.length)]);
+//							mainLabel.setText(mainLabel.getText()+message);
+//
+//							teamBHp += ((Character)teamB[i]).getHp();
+//						}else {
+//							message = ((Character)teamB[i]).introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//						}
+//					}else {
+//						if(teamA[i] instanceof Character) {
+//							message = teamB[i].introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//
+//							message = teamB[i].move((Character)teamA[(int)(Math.random()*teamA.length)]);
+//							mainLabel.setText(mainLabel.getText()+message);
+//						}else {
+//							message = teamB[i].introduce();
+//							mainLabel.setText(mainLabel.getText()+message);
+//						}
+//					}
+//				}
+//				teamAHp = 0;
+//				teamBHp = 0;
+//				for(int k=0; k<teamA.length; k++) {
+//					if(teamA[k] instanceof Character) {
+//						teamAHp += ((Character)teamA[k]).getHp();
+//					}
+//				}
+//				for(int k=0; k<teamB.length; k++) {
+//					if(teamB[k] instanceof Character) {
+//						teamBHp += ((Character)teamB[k]).getHp();
+//					}
+//				}
+//				if(teamAHp<=0) {
+//					topLabel.setText(mainLabel.getText()+"teamBの勝利！");
+//					isEnded = true;
+//				}
+//				if(teamBHp<=0) {
+//					topLabel.setText(mainLabel.getText()+"teamAの勝利！");
+//					isEnded = true;
+//				}
 			}
 		}));
 //		回数を指定する（ここでは無限)
